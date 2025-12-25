@@ -1,0 +1,1151 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <title>PTC Demo</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <!-- 连接钱包圆形按钮 -->
+  <button id="btnConnect" class="connect-btn" onclick="connectWallet()" title="连接钱包">🔗</button>
+
+  <!-- 首页 -->
+  <section id="home" class="page active">
+    <img class="banner" src="logo2.png" alt="banner 占位">
+    <div class="btn-row">
+      <button class="btn-primary" onclick="location.hash='#notice'">平台公告</button>
+      <button class="btn-line">全网公测上线</button>
+    </div>
+
+    <h3 class="title">我的勋章</h3>
+    <div class="medal-box">
+      <div id="medalContainer" style="display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;min-height:150px;">
+        <!-- 勋章图片将动态显示在这里 -->
+      </div>
+      <p>我的勋章总数：<b id="myMedals">0</b></p>
+      <p style="font-size:12px;color:#666;margin-top:4px;" id="medalDetail">黄金:0 钻石:0 黑钻:0</p>
+    </div>
+
+    <div class="pi-price-box">
+      <p class="pi-price-text">Pi一枚值: <span class="pi-price-value">314159$</span></p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <span class="big-purple" id="totalMedals">0</span>
+        <p class="sub">全球勋章数量</p>
+      </div>
+
+      <div class="card card-right" onclick="goPledge()" style="cursor:pointer;">
+        <span class="big-purple" id="myPledgeU">质押</span>
+        <p class="sub">去质押&gt;</p>
+        <img id="pledgeCardImg" class="corner-img" src="0xz.png" alt="勋章">
+      </div>
+
+      <div class="card">
+        <span class="big-purple" id="teamMedals">0</span>
+        <p class="sub">所在地区黄金勋章数量</p>
+      </div>
+
+      <div class="card card-right" onclick="location.hash='#points'" style="cursor:pointer;">
+        <span class="big-purple">Pi</span>
+        <p class="sub">Pi明细&gt;</p>
+        <img id="pointsCardImg" class="corner-img" src="0xz.png" alt="勋章">
+      </div>
+
+      
+    </div>
+  </section>
+
+  <!-- 商城 -->
+  <section id="mall" class="page">
+    <h3 class="title">商品区</h3>
+    <img class="banner" src="logo.png" alt="商城头图占位">
+
+    <h3 class="title" style="margin-top:24px;font-size:18px;color:var(--primary);">黄金区域</h3>
+    <div class="grid-2">
+      <div class="goods-card" onclick="goExchange(0, '0.jpg', '宫廷古法黄金戒指 足金999-55g', '0.45')" style="cursor:pointer;">
+        <img src="0.jpg" alt="">
+        <div class="g-info">
+          <p>宫廷古法黄金戒指 足金999-55g</p>
+          <p class="price">Pi：0.45</p>
+        </div>
+      </div>
+      <div class="goods-card" onclick="goExchange(1, '1.png', '宫廷古法黄金手镯 足金999-100g', '0.8')" style="cursor:pointer;">
+        <img src="1.png" alt="">
+        <div class="g-info">
+          <p>宫廷古法黄金手镯 足金999-100g</p>
+          <p class="price">Pi：0.8</p>
+        </div>
+      </div>
+      <div class="goods-card" onclick="goExchange(2, '2.png', '中国黄金-金条-足金999-3Kg', '2.8')" style="cursor:pointer;">
+        <img src="2.png" alt="">
+        <div class="g-info">
+          <p>中国黄金-金条-足金999-3Kg</p>
+          <p class="price">Pi：2.8</p>
+        </div>
+      </div>
+      <div class="goods-card" onclick="goExchange(14, '14.png', '翡翠玉石', '18.88')" style="cursor:pointer;">
+        <img src="14.png" alt="">
+        <div class="g-info">
+          <p>翡翠玉石</p>
+          <p class="price">Pi：18.88</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="title" style="margin-top:24px;font-size:18px;color:var(--primary);">车产区域</h3>
+    <div class="grid-2">
+      <div class="goods-card" onclick="goExchange(3, '3.png', '特斯拉 Model S', '1.5')" style="cursor:pointer;">
+        <img src="3.png" alt="">
+        <div class="g-info">
+          <p>特斯拉 Model S</p>
+          <p class="price">Pi：1.5</p>
+        </div>
+      </div>
+      <div class="goods-card" onclick="goExchange(4, '4.png', '丰田阿尔法商务车', '1.8')" style="cursor:pointer;">
+        <img src="4.png" alt="">
+        <div class="g-info">
+          <p>丰田阿尔法商务车</p>
+          <p class="price">Pi：1.8</p>
+        </div>
+      </div>
+      <div class="goods-card" onclick="goExchange(5, '5.png', '华为M9', '2.8')" style="cursor:pointer;">
+        <img src="5.png" alt="">
+        <div class="g-info">
+          <p>华为M9</p>
+          <p class="price">Pi：2.8</p>
+        </div>
+      </div>
+      <div class="goods-card" onclick="goExchange(15, '15.png', '红旗汽车', '8.88')" style="cursor:pointer;">
+        <img src="15.png" alt="">
+        <div class="g-info">
+          <p>红旗汽车</p>
+          <p class="price">Pi：8.88</p>
+        </div>
+      </div>
+      <div class="goods-card" onclick="goExchange(10, '10.png', '宾利', '12.8')" style="cursor:pointer;">
+        <img src="10.png" alt="">
+        <div class="g-info">
+          <p>宾利</p>
+          <p class="price">Pi：12.8</p>
+        </div>
+      </div>
+      <div class="goods-card" onclick="goExchange(11, '11.png', '迈巴赫', '13.8')" style="cursor:pointer;">
+        <img src="11.png" alt="">
+        <div class="g-info">
+          <p>迈巴赫</p>
+          <p class="price">Pi：13.8</p>
+        </div>
+      </div>
+      <div class="goods-card" onclick="goExchange(12, '12.png', '劳斯莱斯', '14.8')" style="cursor:pointer;">
+        <img src="12.png" alt="">
+        <div class="g-info">
+          <p>劳斯莱斯</p>
+          <p class="price">Pi：14.8</p>
+        </div>
+      </div>
+      <div class="goods-card" onclick="goExchange(13, '13.png', '法拉利', '31.9')" style="cursor:pointer;">
+        <img src="13.png" alt="">
+        <div class="g-info">
+          <p>法拉利</p>
+          <p class="price">Pi：31.9</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="title" style="margin-top:24px;font-size:18px;color:var(--primary);">房产区域</h3>
+    <div class="grid-2">
+      <div class="goods-card" onclick="goExchange(6, '6.png', '第4代空中花园房', '8')" style="cursor:pointer;">
+        <img src="6.png" alt="">
+        <div class="g-info">
+          <p>第4代空中花园房</p>
+          <p class="price">Pi：8</p>
+        </div>
+      </div>
+      <div class="goods-card" onclick="goExchange(7, '7.png', '第4代空中花园房', '12')" style="cursor:pointer;">
+        <img src="7.png" alt="">
+        <div class="g-info">
+          <p>第4代空中花园房</p>
+          <p class="price">Pi：12</p>
+        </div>
+      </div>
+      <div class="goods-card" onclick="goExchange(8, '8.png', '欧美别墅', '55')" style="cursor:pointer;">
+        <img src="8.png" alt="">
+        <div class="g-info">
+          <p>欧美别墅</p>
+          <p class="price">Pi：55</p>
+        </div>
+      </div>
+      <div class="goods-card" onclick="goExchange(9, '9.png', '海景别墅', '68')" style="cursor:pointer;">
+        <img src="9.png" alt="">
+        <div class="g-info">
+          <p>海景别墅</p>
+          <p class="price">Pi：68</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 钱包 -->
+  <section id="wallet" class="page">
+    <div class="balance-box">
+      <div><span class="label">Pi余额</span><b id="piBal">0</b></div>
+      <div><span class="label">USDT余额</span><b id="usdtBal">0</b></div>
+      <div><span class="label">BNB余额</span><b id="bnbBal">0</b></div>
+      <div><span class="label">质押总额(U)</span><b id="pledgeSum">0</b></div>
+    </div>
+
+    <!-- 质押表单 -->
+    <div class="stake-box">
+      <div style="display:flex;gap:10px;margin-bottom:10px;">
+        <button onclick="selectStakeAmount(30)" id="btn1" style="flex:1;padding:12px;border:2px solid var(--primary);border-radius:8px;background:transparent;color:var(--primary);cursor:pointer;">30U</button>
+        <button onclick="selectStakeAmount(100)" id="btn2" style="flex:1;padding:12px;border:2px solid var(--primary);border-radius:8px;background:transparent;color:var(--primary);cursor:pointer;">100U</button>
+        <button onclick="selectStakeAmount(200)" id="btn3" style="flex:1;padding:12px;border:2px solid var(--primary);border-radius:8px;background:transparent;color:var(--primary);cursor:pointer;">200U</button>
+      </div>
+      <input id="stakeAmount" type="number" placeholder="选择质押档位" readonly style="margin-bottom:10px;">
+      <button onclick="stake()">质押</button>
+      <button onclick="claim()" style="background:#4caf50;">领取Pi</button>
+      <p id="inviterTip" style="font-size:12px;color:#06c"></p>
+      <p id="tips"></p>
+    </div>
+
+
+
+    <div class="tabs">
+      <a href="#" class="on">24小时</a>
+      <a href="#">7天</a>
+      <a href="#">30天</a>
+      <a href="#">90天</a>
+      <a href="#">1年</a>
+      <a href="#">全部</a>
+    </div>
+
+    <div class="chart">
+      <h2>Pi<span id="myPoint">0.00</span> <small id="myPointAdd" style="color:#4caf50;">价值: 0.00 U</small></h2>
+      <div style="text-align:center;margin:20px 0;">
+        <img id="walletMedalImg" src="0xz.png" alt="勋章" style="width:120px;margin:0 auto;animation:pulse 3s infinite ease-in-out;">
+      </div>
+      <img src="kx.png" alt="折线图占位">
+    </div>
+  </section>
+
+  <!-- 平台公告页 -->
+  <section id="notice" class="page">
+    <div style="display:flex;align-items:center;margin-bottom:20px;">
+      <a href="#home" style="font-size:24px;margin-right:12px;">‹</a>
+      <h2 style="font-size:18px;font-weight:700;">平台公告</h2>
+    </div>
+
+    <div style="background:var(--card-bg);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <h3 style="font-size:16px;font-weight:700;">公告</h3>
+        <small style="color:#999;">2025-12-01 20:09</small>
+      </div>
+      <div style="line-height:1.8;color:#333;font-size:14px;">
+        <p>亲爱的全球合作伙伴与 PiByte 生态建设者们：</p>
+        <p>我们非常激动地宣布：</p>
+        <p style="font-weight:700;margin:10px 0;">PiByte 官方 DAPP 1.0版本现在已正式上线！</p>
+        <p>这是 PiByte 生态迈向全球化商业应用的重要里程碑，也是我们推动区块链真实商业落地的关键一步。</p>
+        
+        <p style="font-weight:700;margin-top:16px;">本次上线版本主要实现：</p>
+        <p>✅ 安全稳定的链上账户体系</p>
+        <p>✅ 高效可靠的资产管理模块</p>
+        <p>✅ 流畅便捷的跨设备转账体验</p>
+        <p>✅ 多节点并发保障系统稳定运行</p>
+        <p>✅ 面向企业级应用的底层支持架构</p>
+        
+        <p style="margin-top:16px;">PiByte APP 将持续围绕"真实数据、真实交易、真实应用"打造开放、公平、高效的数字商业基础设施，全面赋能中小企业连接全球市场。</p>
+        <p>目前我们已经在全球10多个国家同步上线！</p>
+        <p>由于每一个国家的版本语言有所不同</p>
+        <p>所以我们需要更强大的技术支撑！</p>
+        <p>如果你在全网公测中发现什么问题、请及时反馈与我们！</p>
+        <p>我们将及时做出处理！</p>
+        <p>感谢全球PiByte的共识者！</p>
+        <p style="font-weight:700;margin-top:16px;">我们将见证历史，一起开创Pi Network的新纪元！</p>
+        
+        <p style="margin-top:20px;text-align:right;color:#666;">官方团队</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 质押详情页 -->
+  <section id="pledge" class="page">
+    <div style="display:flex;align-items:center;margin-bottom:20px;">
+      <a href="#home" style="font-size:24px;margin-right:12px;">‹</a>
+      <h2 style="font-size:18px;font-weight:700;">质押</h2>
+    </div>
+
+    <div style="background:var(--card-bg);border-radius:var(--radius);padding:32px 20px;text-align:center;box-shadow:var(--shadow);">
+      <h1 style="font-size:42px;color:var(--primary);font-weight:700;" id="pledgeAmount">0.000000</h1>
+      <p style="margin-top:10px;color:var(--gray);">我的(USDT)质押数量</p>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:700;margin:20px 0 10px;">质押记录</h3>
+    <div style="background:var(--card-bg);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);min-height:200px;">
+      <p id="pledgeHistory" style="text-align:center;color:#999;">暂无质押记录</p>
+    </div>
+
+    <button onclick="location.hash='#wallet'" style="width:100%;margin-top:30px;padding:14px 0;border:none;border-radius:28px;background:linear-gradient(135deg,var(--primary),var(--sub));color:#fff;font-size:16px;font-weight:700;cursor:pointer;">去质押</button>
+  </section>
+
+  <!-- Pi详情页 -->
+  <section id="points" class="page">
+    <div style="display:flex;align-items:center;margin-bottom:24px;">
+      <a href="#home" style="font-size:24px;margin-right:12px;text-decoration:none;color:#333;">‹</a>
+      <h2 style="font-size:18px;font-weight:700;margin:0;">Pi</h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
+      <div style="background:var(--card-bg);border-radius:var(--radius);padding:18px 12px;text-align:center;box-shadow:var(--shadow);min-height:100px;display:flex;flex-direction:column;justify-content:center;">
+        <h2 style="font-size:26px;color:#4caf50;font-weight:700;margin:0;" id="pointsClaimed">0</h2>
+        <p style="margin-top:6px;color:var(--gray);font-size:12px;margin:0;">已领取</p>
+      </div>
+      <div style="background:var(--card-bg);border-radius:var(--radius);padding:18px 12px;text-align:center;box-shadow:var(--shadow);min-height:100px;display:flex;flex-direction:column;justify-content:center;">
+        <h2 style="font-size:26px;color:#ff9800;font-weight:700;margin:0;" id="pointsPending">0</h2>
+        <p style="margin-top:6px;color:var(--gray);font-size:12px;margin:0;">待领取</p>
+      </div>
+      <div style="background:var(--card-bg);border-radius:var(--radius);padding:18px 12px;text-align:center;box-shadow:var(--shadow);min-height:100px;display:flex;flex-direction:column;justify-content:center;">
+        <h2 style="font-size:26px;color:var(--primary);font-weight:700;margin:0;" id="pointsTotal">0</h2>
+        <p style="margin-top:6px;color:var(--gray);font-size:12px;margin:0;">总余额</p>
+      </div>
+    </div>
+
+    <button onclick="claimFromPointsPage()" style="width:100%;padding:14px 0;border:none;border-radius:28px;background:linear-gradient(135deg,var(--primary),var(--sub));color:#fff;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:24px;transition:all 0.3s;box-shadow:0 2px 8px rgba(112,52,255,0.3);" onmousedown="this.style.transform='scale(0.98)'" onmouseup="this.style.transform='scale(1)'" onmouseleave="this.style.transform='scale(1)'">领取Pi</button>
+
+    <h3 style="font-size:16px;font-weight:700;margin:0 0 12px 0;color:#222;">Pi明细</h3>
+    <div id="pointsHistory" style="background:var(--card-bg);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);min-height:200px;">
+      <p style="text-align:center;color:#999;margin:0;padding:40px 0;">暂无记录</p>
+    </div>
+  </section>
+
+  <!-- 团队成员列表页 -->
+  <section id="team-list" class="page">
+    <div style="display:flex;align-items:center;margin-bottom:20px;">
+      <a href="#mine" style="font-size:24px;margin-right:12px;">‹</a>
+      <h2 style="font-size:18px;font-weight:700;" id="teamListTitle">团队成员</h2>
+    </div>
+
+    <div id="teamMemberList" style="background:var(--card-bg);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);min-height:200px;">
+      <p style="text-align:center;color:#999;">加载中...</p>
+    </div>
+  </section>
+
+  <!-- 兑换页面 -->
+  <section id="exchange" class="page">
+    <div style="display:flex;align-items:center;margin-bottom:20px;">
+      <a href="#mall" style="font-size:24px;margin-right:12px;">‹</a>
+      <h2 style="font-size:18px;font-weight:700;">商品兑换</h2>
+    </div>
+
+    <div style="background:var(--card-bg);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:20px;">
+      <img id="exchangeGoodsImg" src="" alt="商品图片" style="width:100%;border-radius:var(--radius);margin-bottom:16px;">
+      <div>
+        <p style="font-size:14px;color:#666;margin-bottom:4px;">兑换价格</p>
+        <p style="font-size:20px;font-weight:700;color:var(--primary);" id="exchangeGoodsPrice">Pi：-</p>
+      </div>
+    </div>
+
+    <div style="background:var(--card-bg);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:20px;">
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">收货地址</h3>
+      <input id="exchangeAddress" type="text" placeholder="请输入收货地址" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:14px;box-sizing:border-box;margin-bottom:12px;">
+      <input id="exchangeName" type="text" placeholder="请输入收货人姓名" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:14px;box-sizing:border-box;margin-bottom:12px;">
+      <input id="exchangePhone" type="text" placeholder="请输入联系电话" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:14px;box-sizing:border-box;">
+    </div>
+
+    <button onclick="submitExchange()" style="width:100%;padding:14px 0;border:none;border-radius:28px;background:linear-gradient(135deg,var(--primary),var(--sub));color:#fff;font-size:16px;font-weight:700;cursor:pointer;">兑换</button>
+    
+    <p id="exchangeTips" style="text-align:center;color:#999;font-size:14px;margin-top:16px;"></p>
+  </section>
+
+  <!-- 我的 -->
+  <section id="mine" class="page">
+    <div class="profile-box">
+      <img id="avatarImg" class="avatar" src="0xz.png" alt="avatar 占位">
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:12px;flex-wrap:wrap;">
+        <span id="vipBadge" style="display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:6px 14px;border-radius:20px;background:#e0e0e0;color:#999;font-size:13px;font-weight:700;transition:all 0.3s;" title="普通用户">
+          <span style="font-size:16px;">👑</span>
+          <span>VIP</span>
+        </span>
+      </div>
+      <p class="uid" id="myAddr" style="margin-top:12px;">未连接</p>
+      <p class="addr" id="myAddrShort" style="margin-top:6px;"></p>
+    </div>
+
+    <div class="invite-box">
+      <img id="inviteQrImg" src="0xz.png" alt="二维码占位">
+      <div class="inv-info">
+        <small>邀请码</small>
+        <p class="code" id="inviteCode">-</p>
+        <input id="shareLink" readonly onclick="copyLink()" />
+      </div>
+    </div>
+
+    <h3 class="title">团队管理</h3>
+    <div class="grid-2 team">
+      <div class="t-card" onclick="showTeamMembers(1)" style="cursor:pointer;"><b id="teamLv1">0人</b><p>一级成员</p></div>
+      <div class="t-card"><b id="medalInfo">-</b><p>勋章信息</p></div>
+    </div>
+
+    <h3 class="title" style="margin-top:24px;">我的订单</h3>
+    <div style="background:var(--card-bg);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);min-height:100px;margin-bottom:20px;">
+      <div id="orderList" style="text-align:center;color:#999;">加载中...</div>
+    </div>
+    <button onclick="location.hash='#orders'" style="width:100%;padding:12px 0;border:none;border-radius:24px;background:linear-gradient(135deg,var(--primary),var(--sub));color:#fff;font-size:14px;font-weight:700;cursor:pointer;">查看全部订单</button>
+
+  </section>
+
+  <!-- 订单列表页 -->
+  <section id="orders" class="page">
+    <div style="display:flex;align-items:center;margin-bottom:20px;">
+      <a href="#mine" style="font-size:24px;margin-right:12px;">‹</a>
+      <h2 style="font-size:18px;font-weight:700;">我的订单</h2>
+    </div>
+
+    <div id="allOrdersList" style="background:var(--card-bg);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);min-height:200px;">
+      <p style="text-align:center;color:#999;">加载中...</p>
+    </div>
+  </section>
+
+  <!-- 资讯平台 -->
+  <section id="consult" class="page">
+    <h3 class="title">资讯平台</h3>
+    
+    <div class="video-list">
+      <!-- 视频 1 -->
+      <div class="video-item">
+        <div class="video-container">
+          <video class="video-player" controls preload="metadata" poster="">
+            <source src="1.mp4" type="video/mp4">
+            您的浏览器不支持视频播放。
+          </video>
+        </div>
+        <div class="video-info">
+          <h4 class="video-title">成雕论生态1</h4>
+          <p class="video-desc">成雕论生态1</p>
+        </div>
+      </div>
+
+      <!-- 视频 2 -->
+      <div class="video-item">
+        <div class="video-container">
+          <video class="video-player" controls preload="metadata" poster="">
+            <source src="2.MP4" type="video/mp4">
+            您的浏览器不支持视频播放。
+          </video>
+        </div>
+        <div class="video-info">
+          <h4 class="video-title">成雕论生态2</h4>
+          <p class="video-desc">成雕论生态2</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 本地生活 -->
+  <section id="local" class="page">
+    <h3 class="title">本地生活</h3>
+    
+    <div class="coming-soon-box">
+      <div class="coming-soon-icon">🚧</div>
+      <h2 class="coming-soon-title">待开放</h2>
+      <p class="coming-soon-desc">让Pi商城走进微型企业，千家万户！</p>
+      <p class="coming-soon-desc" style="margin-top:8px;">功能等待开放，敬请期待...</p>
+    </div>
+  </section>
+
+  <!-- 底部导航 -->
+  <nav class="tab-bar">
+    <a href="#home" class="tab on">首页</a>
+    <a href="#mall" class="tab">商城</a>
+    <a href="#local" class="tab">本地生活</a>
+    <a href="#wallet" class="tab">钱包</a>
+    <a href="#mine" class="tab">我的</a>
+    <a href="#consult" class="tab">资讯平台</a>
+  </nav>
+
+  <!-- ethers.js -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script>
+    /* -------- hash 页面切换 -------- */
+    function switchPage(){
+      const hash = location.hash || '#home';
+      document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active', '#'+p.id===hash));
+      document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on', t.getAttribute('href')===hash));
+    }
+    window.addEventListener('hashchange', switchPage);switchPage();
+    
+    // 初始化勋章显示（默认图片）
+    function initMedalDisplay(){
+      const medalContainer = document.getElementById('medalContainer');
+      if(medalContainer && medalContainer.children.length === 0){
+        const defaultImg = document.createElement('img');
+        defaultImg.src = '0xz.png';
+        defaultImg.alt = '默认勋章';
+        defaultImg.style.width = '150px';
+        defaultImg.style.margin = '0 auto';
+        medalContainer.appendChild(defaultImg);
+      }
+      // 钱包页面的勋章图片已在HTML中设置默认值，无需额外初始化
+    }
+    initMedalDisplay();
+
+    /* -------- 链参数 -------- */
+    const contractAddress = "0x077F10970ee4Bb9f6b34467408418E421faecc0e";
+    const usdtAddress     = "0x55d398326f99059fF775485246999027B3197955";
+    const abi=[
+      "function stake(uint256,address)","function claim()",
+      "function medalsOf(address) view returns(uint256,uint256,uint256)",
+      "function piBalanceOf(address) view returns(uint256)",
+      "function pendingPi(address) view returns(uint256)",
+      "function totalStakedOf(address) view returns(uint256)",
+      "function getLevel1Members(address) view returns(address[])",
+      "function getLevel1Count(address) view returns(uint256)",
+      "function getStakeRecords(address) view returns(tuple(uint256,uint256,uint256)[])",
+      "function getClaimRecords(address) view returns(tuple(uint256,uint256)[])",
+      "function getGlobalMedalCount() view returns(uint256)",
+      "function getRegionGoldMedalCount() view returns(uint256)",
+      "function userInfo(address) view returns(uint256,uint256,uint256,bool,uint256,uint256,uint256,address,uint256)",
+      "function DECIMALS() view returns(uint256)",
+      "function exchangeProduct(uint256,string,string,string)",
+      "function getOrders(address) view returns(tuple(uint256,uint256,uint8,uint256,string,string,string)[])",
+      "function getOrderCount(address) view returns(uint256)",
+      "function getOrderDetail(address,uint256) view returns(uint256,uint256,uint8,uint256,string,string,string,string)",
+      "function getOrderStatus(address,uint256) view returns(uint8)",
+      "function getProductPrices() view returns(uint256[14])",
+      "function getShippingFromAddress() view returns(string)",
+      "event Staked(address indexed user,uint256 amountU,uint256 medal)",
+      "event Claimed(address indexed user,uint256 piSelf,uint256 piLv1,uint256 piLv2)",
+      "event OrderCreated(address indexed user,uint256 indexed orderIndex,uint256 productIndex,uint256 pricePi)"
+    ];
+    let provider,signer,contract,myAddr;
+
+    function getQuery(key){const url=new URL(location.href);return url.searchParams.get(key);} 
+    const inviterParam=getQuery('inviter');
+    if(inviterParam){
+      const tipEl=document.getElementById('inviterTip');
+      tipEl.innerText='已检测到邀请人：'+inviterParam.slice(0,6)+'...'+inviterParam.slice(-4);
+    } 
+    function copyLink(){const inp=document.getElementById('shareLink');inp.select();document.execCommand('copy');alert('已复制邀请链接');}
+
+    async function connectWallet(){ if(!window.ethereum){return alert('请安装 MetaMask');}
+      try{
+        await ethereum.request({method:'eth_requestAccounts'});
+        provider=new ethers.providers.Web3Provider(window.ethereum);
+        signer=provider.getSigner();
+        myAddr=await signer.getAddress();
+        // 只显示缩短的地址
+        document.getElementById('myAddr').innerText=myAddr.slice(0,6)+'...'+myAddr.slice(-4);
+        document.getElementById('myAddrShort').style.display='none';
+        document.getElementById('inviteCode').innerText=myAddr.slice(0,6)+'...'+myAddr.slice(-4);
+        document.getElementById('shareLink').value=`${location.origin}${location.pathname}?inviter=${myAddr}`;
+        const btn=document.getElementById('btnConnect');btn.classList.add('connected');btn.innerText='✔';btn.title='已连接';
+        contract=new ethers.Contract(contractAddress,abi,signer);
+        // 获取USDT小数位
+        try{
+          usdtDecimals = await contract.DECIMALS();
+        }catch(e){
+          console.log('无法获取DECIMALS，使用默认值18');
+        }
+        loadData();
+      }catch(e){console.log(e)} }
+
+    let usdtDecimals = 18; // 默认值，会在连接钱包时获取
+
+    async function showTeamMembers(level){
+      if(!contract)return alert('请连接钱包');
+      if(level !== 1) return; // 合约只有一级成员
+      location.hash='#team-list';
+      document.getElementById('teamListTitle').innerText='一级成员';
+      const listEl=document.getElementById('teamMemberList');
+      listEl.innerHTML='<p style="text-align:center;color:#999">加载中...</p>';
+      try{
+        const members=await contract.getLevel1Members(myAddr);
+        if(!members.length){listEl.innerHTML='<p style="text-align:center;color:#999">暂无成员</p>';return;}
+        let html='<ul style="list-style:none;padding:0">';
+        for(let addr of members){
+          const staked=await contract.totalStakedOf(addr);
+          const stakedU=ethers.utils.formatUnits(staked,usdtDecimals);
+          html+=`<li style="padding:12px 0;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:13px;color:#666">${addr.slice(0,6)}...${addr.slice(-4)}</span>
+            <span style="font-weight:700;color:var(--primary)">${stakedU} U</span>
+          </li>`;
+        }
+        html+='</ul>';
+        listEl.innerHTML=html;
+      }catch(e){console.log(e);listEl.innerHTML='<p style="text-align:center;color:#f00">加载失败</p>';}
+    }
+
+    // 格式化数字，去掉末尾的0
+    function formatNumber(num){
+      const numStr = parseFloat(num).toString();
+      if(numStr.includes('.')){
+        return numStr.replace(/\.?0+$/, '');
+      }
+      return numStr;
+    }
+    
+    // 智能格式化，根据数值大小选择合适的小数位
+    function smartFormat(num){
+      const numFloat = parseFloat(num);
+      if(numFloat === 0) return '0';
+      if(numFloat < 0.0001) return numFloat.toExponential(2); // 极小值用科学计数法
+      if(numFloat < 1) return formatNumber(numFloat.toFixed(6)); // 小于1保留6位
+      if(numFloat < 100) return formatNumber(numFloat.toFixed(4)); // 小于100保留4位
+      if(numFloat < 10000) return formatNumber(numFloat.toFixed(2)); // 小于10000保留2位
+      return formatNumber(numFloat.toFixed(2)); // 大于10000保留2位
+    }
+
+    async function loadData(){ if(!contract)return; try{
+      const [medalsData,pts,usdtBalRaw,bnbBalRaw,globalMedals,regionMedals]=await Promise.all([
+        contract.medalsOf(myAddr),
+        contract.piBalanceOf(myAddr),
+        (new ethers.Contract(usdtAddress,["function balanceOf(address) view returns(uint256)"],provider)).balanceOf(myAddr),
+        provider.getBalance(myAddr),
+        contract.getGlobalMedalCount(),
+        contract.getRegionGoldMedalCount()
+      ]);
+      const [goldMedals, diamondMedals, jadeMedals] = medalsData;
+      const totalMedals = goldMedals.toNumber() + diamondMedals.toNumber() + jadeMedals.toNumber();
+      document.getElementById('myMedals').innerText=totalMedals;
+      document.getElementById('medalDetail').innerText=`黄金:${goldMedals} 钻石:${diamondMedals} 黑钻:${jadeMedals}`;
+      
+      // 根据最高等级勋章更新所有相关图片
+      let highestMedalImg = '0xz.png';
+      let highestMedalAlt = '默认勋章';
+      if(jadeMedals.toNumber() > 0){
+        highestMedalImg = 'hzxz.png'; // 黑钻勋章（最高等级）
+        highestMedalAlt = '黑钻勋章';
+      } else if(diamondMedals.toNumber() > 0){
+        highestMedalImg = 'zsxz.png'; // 钻石勋章
+        highestMedalAlt = '钻石勋章';
+      } else if(goldMedals.toNumber() > 0){
+        highestMedalImg = 'hjxz.png'; // 黄金勋章
+        highestMedalAlt = '黄金勋章';
+      }
+      
+      // 更新钱包页面的勋章图片
+      const walletMedalImg = document.getElementById('walletMedalImg');
+      if(walletMedalImg){
+        walletMedalImg.src = highestMedalImg;
+        walletMedalImg.alt = highestMedalAlt;
+      }
+      
+      // 更新首页"质押"卡片的图片
+      const pledgeCardImg = document.getElementById('pledgeCardImg');
+      if(pledgeCardImg){
+        pledgeCardImg.src = highestMedalImg;
+        pledgeCardImg.alt = highestMedalAlt;
+      }
+      
+      // 更新首页"Pi"卡片的图片
+      const pointsCardImg = document.getElementById('pointsCardImg');
+      if(pointsCardImg){
+        pointsCardImg.src = highestMedalImg;
+        pointsCardImg.alt = highestMedalAlt;
+      }
+      
+      // 更新"我的"页面头像图片
+      const avatarImg = document.getElementById('avatarImg');
+      if(avatarImg){
+        avatarImg.src = highestMedalImg;
+        avatarImg.alt = highestMedalAlt;
+      }
+      
+      // 更新"我的"页面邀请码区域的图片
+      const inviteQrImg = document.getElementById('inviteQrImg');
+      if(inviteQrImg){
+        inviteQrImg.src = highestMedalImg;
+        inviteQrImg.alt = highestMedalAlt;
+      }
+      
+      // 根据拥有的勋章类型显示对应的图片
+      const medalContainer = document.getElementById('medalContainer');
+      medalContainer.innerHTML = ''; // 清空容器
+      
+      if(totalMedals === 0){
+        // 没有勋章，显示默认图片
+        const defaultImg = document.createElement('img');
+        defaultImg.src = '0xz.png';
+        defaultImg.alt = '默认勋章';
+        defaultImg.style.width = '150px';
+        defaultImg.style.margin = '0 auto';
+        medalContainer.appendChild(defaultImg);
+      } else {
+        // 根据拥有的勋章类型显示对应的图片
+        if(goldMedals.toNumber() > 0){
+          const goldImg = document.createElement('img');
+          goldImg.src = 'hjxz.png'; // 黄金勋章图片
+          goldImg.alt = '黄金勋章';
+          goldImg.style.width = '120px';
+          goldImg.style.animation = 'pulse 3s infinite ease-in-out';
+          medalContainer.appendChild(goldImg);
+        }
+        if(diamondMedals.toNumber() > 0){
+          const diamondImg = document.createElement('img');
+          diamondImg.src = 'zsxz.png'; // 钻石勋章图片
+          diamondImg.alt = '钻石勋章';
+          diamondImg.style.width = '120px';
+          diamondImg.style.animation = 'pulse 3s infinite ease-in-out';
+          medalContainer.appendChild(diamondImg);
+        }
+        if(jadeMedals.toNumber() > 0){
+          const jadeImg = document.createElement('img');
+          jadeImg.src = 'hzxz.png'; // 黑钻勋章图片
+          jadeImg.alt = '黑钻勋章';
+          jadeImg.style.width = '120px';
+          jadeImg.style.animation = 'pulse 3s infinite ease-in-out';
+          medalContainer.appendChild(jadeImg);
+        }
+      }
+      const ptsFmt=ethers.utils.formatUnits(pts,18);
+      const formattedPts = smartFormat(ptsFmt);
+      document.getElementById('piBal').innerText=formattedPts;
+      document.getElementById('myPoint').innerText=formattedPts;
+      
+      // 计算当前Pi价值多少U（1 Pi = 314159 U）
+      const piValueInU = parseFloat(ptsFmt) * 314159;
+      const formattedValue = piValueInU >= 1000 ? piValueInU.toFixed(2) : piValueInU.toFixed(4);
+      document.getElementById('myPointAdd').innerText = '价值: ' + formattedValue + ' U';
+      
+      // 计算总质押金额
+      const [userInfoData,pending,lv1Cnt,totalStaked]=await Promise.all([
+        contract.userInfo(myAddr),
+        contract.pendingPi(myAddr),
+        contract.getLevel1Count(myAddr),
+        contract.totalStakedOf(myAddr)
+      ]);
+      const totalStakedU = parseFloat(ethers.utils.formatUnits(totalStaked,usdtDecimals));
+      document.getElementById('myPledgeU').innerText=totalStakedU.toFixed(0)+'U';
+      document.getElementById('pledgeAmount').innerText=totalStakedU.toFixed(6);
+      document.getElementById('pledgeSum').innerText=totalStakedU.toFixed(2);
+      document.getElementById('usdtBal').innerText=parseFloat(ethers.utils.formatUnits(usdtBalRaw,usdtDecimals)).toFixed(2);
+      document.getElementById('bnbBal').innerText=parseFloat(ethers.utils.formatEther(bnbBalRaw)).toFixed(4);
+      // 更新团队成员数量
+      document.getElementById('teamLv1').innerText=lv1Cnt+'人';
+      // 更新勋章信息显示
+      const medalInfo = `金${goldMedals} 钻${diamondMedals} 黑${jadeMedals}`;
+      document.getElementById('medalInfo').innerText=medalInfo;
+      // 更新Pi统计
+      const balance=userInfoData[8]; // piBalance (已领取)
+      const balanceFmt = ethers.utils.formatUnits(balance,18);
+      const pendingFmt = ethers.utils.formatUnits(pending,18);
+      const totalFmt = parseFloat(balanceFmt) + parseFloat(pendingFmt); // 总余额 = 已领取 + 待领取
+      
+      // 使用智能格式化显示Pi数量
+      document.getElementById('pointsClaimed').innerText=smartFormat(balanceFmt);
+      document.getElementById('pointsPending').innerText=smartFormat(pendingFmt);
+      document.getElementById('pointsTotal').innerText=smartFormat(totalFmt.toString());
+      
+      // 更新全球勋章数量和所在地区黄金勋章数量
+      document.getElementById('totalMedals').innerText=globalMedals.toString();
+      document.getElementById('teamMedals').innerText=regionMedals.toString();
+      
+      // 更新VIP状态显示
+      const isSuperVIP = userInfoData[3]; // isSuperVIP (bool)
+      const vipBadge = document.getElementById('vipBadge');
+      if(vipBadge){
+        if(isSuperVIP){
+          // 金色VIP - 更明显的样式
+          vipBadge.style.background = 'linear-gradient(135deg, #FFD700, #FF8C00)';
+          vipBadge.style.color = '#fff';
+          vipBadge.style.boxShadow = '0 4px 12px rgba(255, 215, 0, 0.6)';
+          vipBadge.style.border = '2px solid #FFD700';
+          vipBadge.style.fontWeight = '700';
+          vipBadge.innerHTML = '<span style="font-size:18px;">👑</span><span>超级VIP</span>';
+          vipBadge.title = '超级VIP - 享受额外收益加成';
+        } else {
+          // 灰色VIP - 更明显的对比
+          vipBadge.style.background = '#e0e0e0';
+          vipBadge.style.color = '#999';
+          vipBadge.style.boxShadow = 'none';
+          vipBadge.style.border = '2px solid #d0d0d0';
+          vipBadge.style.fontWeight = '600';
+          vipBadge.innerHTML = '<span style="font-size:16px;opacity:0.6;">👑</span><span>VIP</span>';
+          vipBadge.title = '普通用户 - 成为VIP需要黑钻勋章+10个一级成员';
+        }
+      }
+      
+      // 如果当前在"我的"页面，加载订单
+      if(location.hash === '#mine'){
+        await loadOrders();
+      }
+    }catch(e){console.log(e)}}
+
+    function selectStakeAmount(amount){
+      document.getElementById('stakeAmount').value = amount;
+      // 重置按钮样式
+      ['btn1','btn2','btn3'].forEach(id=>{
+        const btn = document.getElementById(id);
+        btn.style.background = 'transparent';
+        btn.style.color = 'var(--primary)';
+      });
+      // 设置选中按钮样式（根据金额找到对应的按钮）
+      let btnId = '';
+      if(amount === 30) btnId = 'btn1';
+      else if(amount === 100) btnId = 'btn2';
+      else if(amount === 200) btnId = 'btn3';
+      if(btnId){
+        const selectedBtn = document.getElementById(btnId);
+        selectedBtn.style.background = 'var(--primary)';
+        selectedBtn.style.color = '#fff';
+      }
+    }
+
+    async function stake(){ if(!contract)return alert('请连接钱包');
+      const amount=Number(document.getElementById('stakeAmount').value);
+      if(amount !== 30 && amount !== 100 && amount !== 200)return tips('请选择30U、100U或200U档位');
+      const inviterAddr=getQuery('inviter');const inviter=inviterAddr||ethers.constants.AddressZero;
+      const amt=ethers.utils.parseUnits(amount.toString(),usdtDecimals);
+      const usdt=new ethers.Contract(usdtAddress,["function approve(address,uint256)"],signer);
+      try{tips('approve...');let tx=await usdt.approve(contractAddress,amt);await tx.wait();tips('stake...');tx=await contract.stake(amt,inviter);await tx.wait();tips('成功');loadData();loadPledgeHistory();document.getElementById('stakeAmount').value='';['btn1','btn2','btn3'].forEach(id=>{const btn=document.getElementById(id);btn.style.background='transparent';btn.style.color='var(--primary)';});}catch(e){console.log(e);tips('失败: '+e.message)}
+    }
+
+    async function claim(){ if(!contract)return alert('请连接');try{tips('claim...');const tx=await contract.claim();await tx.wait();tips('领取成功');loadData();}catch(e){console.log(e);tips('领取失败')} }
+    
+    async function claimFromPointsPage(){
+      if(!contract)return alert('请连接钱包');
+      try{
+        const tx=await contract.claim();
+        document.getElementById('pointsHistory').innerHTML='<p style="text-align:center;color:#06c">处理中...</p>';
+        await tx.wait();
+        alert('领取成功');
+        loadData();
+        loadPointsHistory();
+      }catch(e){console.log(e);alert('领取失败')}
+    }
+
+    async function loadPointsHistory(){
+      if(!contract)return;
+      try{
+        const histEl=document.getElementById('pointsHistory');
+        histEl.innerHTML='<p style="text-align:center;color:#06c">加载中...</p>';
+        
+        // 直接从合约查询用户领取记录，避免事件查询的区块范围限制
+        const records=await contract.getClaimRecords(myAddr);
+        
+        if(!records || records.length === 0){
+          histEl.innerHTML='<p style="text-align:center;color:#999">暂无记录</p>';
+          return;
+        }
+        
+        let html='<ul style="list-style:none;padding:0">';
+        // 按时间倒序排列（最新的在前）
+        const sortedRecords = records.slice().sort((a,b)=>{
+          const timeA = a.timestamp ? (a.timestamp.toNumber ? a.timestamp.toNumber() : Number(a.timestamp)) : 0;
+          const timeB = b.timestamp ? (b.timestamp.toNumber ? b.timestamp.toNumber() : Number(b.timestamp)) : 0;
+          return timeB - timeA;
+        });
+        
+        for(let record of sortedRecords){
+          try{
+            const amountPi = record.amountPi || record[0];
+            const timestamp = record.timestamp || record[1];
+            
+            const amount = ethers.utils.formatUnits(amountPi, 18);
+            const timeStamp = timestamp.toNumber ? timestamp.toNumber() * 1000 : Number(timestamp) * 1000;
+            const time = new Date(timeStamp).toLocaleString('zh-CN');
+            const formattedAmount = smartFormat(amount);
+            
+          html+=`<li style="padding:12px 0;border-bottom:1px solid #eee">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                <span style="font-weight:700">领取Pi</span>
+                <span style="color:var(--primary);font-weight:700">+${formattedAmount}</span>
+              </div>
+              <small style="color:#999">${time}</small>
+          </li>`;
+          }catch(err){
+            console.log('处理记录失败:', err);
+          }
+        }
+        html+='</ul>';
+        histEl.innerHTML=html;
+      }catch(e){
+        console.log('加载Pi明细失败:', e);
+        const histEl=document.getElementById('pointsHistory');
+        if(histEl) histEl.innerHTML='<p style="text-align:center;color:#f00">加载失败，请重试</p>';
+      }
+    }
+
+    // 加载订单列表（我的页面显示最近3个）
+    async function loadOrders(){
+      if(!contract || !myAddr) return;
+      try{
+        const orderCount = await contract.getOrderCount(myAddr);
+        const orderCountNum = orderCount.toNumber ? orderCount.toNumber() : Number(orderCount);
+        
+        if(orderCountNum === 0){
+          document.getElementById('orderList').innerHTML = '<p style="text-align:center;color:#999;margin:0;">暂无订单</p>';
+          return;
+        }
+        
+        // 获取所有订单
+        const orders = await contract.getOrders(myAddr);
+        
+        // 显示最近3个订单
+        const recentOrders = orders.slice(-3).reverse();
+        let html = '<ul style="list-style:none;padding:0">';
+        
+        for(let i = 0; i < recentOrders.length; i++){
+          const order = recentOrders[i];
+          const orderIndex = orderCountNum - 1 - i;
+          
+          try{
+            // 获取订单详情（包含实时状态）
+            const detail = await contract.getOrderDetail(myAddr, orderIndex);
+            const productIndex = detail[0].toNumber ? detail[0].toNumber() : Number(detail[0]);
+            const pricePi = ethers.utils.formatUnits(detail[1], 18);
+            const status = detail[2].toNumber ? detail[2].toNumber() : Number(detail[2]); // 0=备货中, 1=发货中
+            const createTime = detail[3].toNumber ? detail[3].toNumber() : Number(detail[3]);
+            const shippingAddress = detail[4];
+            const receiverName = detail[5];
+            
+            const time = new Date(createTime * 1000).toLocaleString('zh-CN');
+            const statusText = status === 0 ? '备货中' : '发货中';
+            const statusColor = status === 0 ? '#ff9800' : '#4caf50';
+            
+            html += `<li style="padding:12px 0;border-bottom:1px solid #eee;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <span style="font-weight:700">商品 #${productIndex + 1}</span>
+                <span style="color:${statusColor};font-weight:700;font-size:12px;">${statusText}</span>
+              </div>
+              <div style="font-size:12px;color:#666;margin-bottom:4px">
+                <div>价格: ${smartFormat(pricePi)} Pi</div>
+                <div>收货人: ${receiverName}</div>
+              </div>
+              <small style="color:#999">${time}</small>
+            </li>`;
+          }catch(err){
+            console.log('处理订单失败:', err);
+          }
+        }
+        
+        html += '</ul>';
+        if(orderCountNum > 3){
+          html += `<p style="text-align:center;color:#999;margin-top:8px;font-size:12px;">共${orderCountNum}个订单，点击下方按钮查看全部</p>`;
+        }
+        document.getElementById('orderList').innerHTML = html;
+      }catch(e){
+        console.log('加载订单失败:', e);
+        document.getElementById('orderList').innerHTML = '<p style="text-align:center;color:#f00;margin:0;">加载失败，请重试</p>';
+      }
+    }
+    
+    // 加载全部订单列表
+    async function loadAllOrders(){
+      if(!contract || !myAddr) return;
+      try{
+        const orderCount = await contract.getOrderCount(myAddr);
+        const orderCountNum = orderCount.toNumber ? orderCount.toNumber() : Number(orderCount);
+        
+        const listEl = document.getElementById('allOrdersList');
+        
+        if(orderCountNum === 0){
+          listEl.innerHTML = '<p style="text-align:center;color:#999;margin:0;padding:40px 0;">暂无订单</p>';
+          return;
+        }
+        
+        // 获取所有订单
+        const orders = await contract.getOrders(myAddr);
+        const shippingFrom = await contract.getShippingFromAddress();
+        
+        let html = '<ul style="list-style:none;padding:0">';
+        
+        // 倒序显示（最新的在前）
+        for(let i = orders.length - 1; i >= 0; i--){
+          const order = orders[i];
+          
+          try{
+            // 获取订单详情（包含实时状态）
+            const detail = await contract.getOrderDetail(myAddr, i);
+            const productIndex = detail[0].toNumber ? detail[0].toNumber() : Number(detail[0]);
+            const pricePi = ethers.utils.formatUnits(detail[1], 18);
+            const status = detail[2].toNumber ? detail[2].toNumber() : Number(detail[2]); // 0=备货中, 1=发货中
+            const createTime = detail[3].toNumber ? detail[3].toNumber() : Number(detail[3]);
+            const shippingAddress = detail[4];
+            const receiverName = detail[5];
+            const receiverPhone = detail[6];
+            const shippingFromAddr = detail[7];
+            
+            const time = new Date(createTime * 1000).toLocaleString('zh-CN');
+            const statusText = status === 0 ? '备货中' : '发货中';
+            const statusColor = status === 0 ? '#ff9800' : '#4caf50';
+            
+            html += `<li style="padding:16px 0;border-bottom:1px solid #eee;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                <span style="font-weight:700;font-size:16px">商品 #${productIndex + 1}</span>
+                <span style="color:${statusColor};font-weight:700;padding:4px 12px;border-radius:12px;background:${statusColor}20;font-size:12px;">${statusText}</span>
+              </div>
+              <div style="font-size:13px;color:#666;margin-bottom:8px;line-height:1.6">
+                <div><strong>价格:</strong> ${smartFormat(pricePi)} Pi</div>
+                <div><strong>收货人:</strong> ${receiverName}</div>
+                <div><strong>电话:</strong> ${receiverPhone}</div>
+                <div><strong>收货地址:</strong> ${shippingAddress}</div>
+                <div><strong>发货地址:</strong> ${shippingFromAddr}</div>
+              </div>
+              <small style="color:#999">下单时间: ${time}</small>
+            </li>`;
+          }catch(err){
+            console.log('处理订单失败:', err);
+          }
+        }
+        
+        html += '</ul>';
+        listEl.innerHTML = html;
+      }catch(e){
+        console.log('加载订单失败:', e);
+        const listEl = document.getElementById('allOrdersList');
+        if(listEl) listEl.innerHTML = '<p style="text-align:center;color:#f00;margin:0;padding:40px 0;">加载失败，请重试</p>';
+      }
+    }
+    
+    // 进入Pi页时加载明细，进入质押页时加载质押记录，进入我的页面时加载订单
+    window.addEventListener('hashchange',()=>{
+      if(location.hash==='#points')loadPointsHistory();
+      if(location.hash==='#pledge')loadPledgeHistory();
+      if(location.hash==='#mine')loadOrders();
+      if(location.hash==='#orders')loadAllOrders();
+    });
+
+    function tips(msg){document.getElementById('tips').innerText=msg;}
+    function goPledge(){location.hash='#pledge';loadPledgeHistory();}
+    
+    // 保存当前兑换的商品信息
+    let currentProductIndex = -1;
+    let currentProductPrice = '0';
+    
+    // 跳转到兑换页面
+    function goExchange(index, imgSrc, date, price){
+      currentProductIndex = index;
+      currentProductPrice = price;
+      document.getElementById('exchangeGoodsImg').src = imgSrc;
+      document.getElementById('exchangeGoodsPrice').innerText = 'Pi：' + price;
+      // 清空输入框
+      document.getElementById('exchangeAddress').value = '';
+      document.getElementById('exchangeName').value = '';
+      document.getElementById('exchangePhone').value = '';
+      document.getElementById('exchangeTips').innerText = '';
+      location.hash = '#exchange';
+    }
+    
+    // 提交兑换
+    async function submitExchange(){
+      if(!contract){
+        alert('请先连接钱包');
+        return;
+      }
+      
+      const address = document.getElementById('exchangeAddress').value.trim();
+      const name = document.getElementById('exchangeName').value.trim();
+      const phone = document.getElementById('exchangePhone').value.trim();
+      
+      if(!address || !name || !phone){
+        document.getElementById('exchangeTips').innerText = '请填写完整的收货信息';
+        document.getElementById('exchangeTips').style.color = '#f00';
+        return;
+      }
+      
+      if(currentProductIndex < 0 || currentProductIndex >= 14){
+        document.getElementById('exchangeTips').innerText = '商品信息错误';
+        document.getElementById('exchangeTips').style.color = '#f00';
+        return;
+      }
+      
+      try{
+        document.getElementById('exchangeTips').innerText = '处理中...';
+        document.getElementById('exchangeTips').style.color = '#06c';
+        
+        // 调用合约兑换函数
+        const tx = await contract.exchangeProduct(
+          currentProductIndex,
+          address,
+          name,
+          phone
+        );
+        
+        document.getElementById('exchangeTips').innerText = '交易已提交，等待确认...';
+        await tx.wait();
+        
+        document.getElementById('exchangeTips').innerText = '兑换成功！';
+        document.getElementById('exchangeTips').style.color = '#4caf50';
+        
+        // 弹窗提示兑换成功
+        alert(`🎉 恭喜！\n\n您已成功花费 ${currentProductPrice} Pi 兑换商品！\n\n订单已创建，请前往"我的"页面查看订单状态。`);
+        
+        // 刷新数据
+        await loadData();
+        await loadOrders();
+        
+        // 3秒后返回商城
+        setTimeout(() => {
+          location.hash = '#mall';
+        }, 3000);
+      }catch(e){
+        console.error('兑换失败:', e);
+        let errorMsg = '兑换失败';
+        if(e.message){
+          if(e.message.includes('余额不足')){
+            errorMsg = 'Pi余额不足';
+          }else if(e.message.includes('user rejected')){
+            errorMsg = '用户取消交易';
+          }else{
+            errorMsg = e.message;
+          }
+        }
+        document.getElementById('exchangeTips').innerText = errorMsg;
+        document.getElementById('exchangeTips').style.color = '#f00';
+      }
+    }
+    
+    async function loadPledgeHistory(){
+      if(!contract)return;
+      try{
+        const records=await contract.getStakeRecords(myAddr);
+        const histEl=document.getElementById('pledgeHistory');
+        if(!records || records.length === 0){
+          histEl.innerHTML='<p style="text-align:center;color:#999">暂无质押记录</p>';
+          return;
+        }
+        let html='<ul style="list-style:none;padding:0">';
+        records.forEach((record, index)=>{
+          try{
+            // 处理tuple返回的数据结构
+            const amountU = record.amountU || record[0];
+            const medals = record.medals || record[1];
+            const timestamp = record.timestamp || record[2];
+            
+            const amt = ethers.utils.formatUnits(amountU, usdtDecimals);
+            const medal = medals.toString();
+            const timeStamp = timestamp.toNumber ? timestamp.toNumber() * 1000 : Number(timestamp) * 1000;
+            const time = new Date(timeStamp).toLocaleString();
+            
+            let medalType = '';
+            const amtNum = parseFloat(amt);
+            if(Math.abs(amtNum - 30) < 0.01) medalType = '黄金';
+            else if(Math.abs(amtNum - 100) < 0.01) medalType = '钻石';
+            else if(Math.abs(amtNum - 200) < 0.01) medalType = '黑钻';
+            
+          html+=`<li style="padding:10px 0;border-bottom:1px solid #eee">
+            <div style="display:flex;justify-content:space-between">
+              <span>质押 ${amt} USDT</span>
+                <span style="color:var(--primary)">${medalType}勋章 x${medal}</span>
+            </div>
+            <small style="color:#999">${time}</small>
+          </li>`;
+          }catch(err){
+            console.log('处理记录失败:', index, err);
+          }
+        });
+        html+='</ul>';
+        histEl.innerHTML=html;
+      }catch(e){
+        console.log('加载质押记录失败:', e);
+        const histEl=document.getElementById('pledgeHistory');
+        if(histEl) histEl.innerHTML='<p style="text-align:center;color:#f00">加载失败，请重试</p>';
+      }
+    }
+
+  </script>
+</body>
+</html>

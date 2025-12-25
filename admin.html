@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <title>Owner 控制台</title>
+  <link rel="stylesheet" href="index.css">
+  <style>
+    .admin-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .admin-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+    .admin-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #222;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 8px;
+    }
+    .admin-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+      margin-bottom: 12px;
+      transition: border-color 0.3s;
+    }
+    .admin-input:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+    .admin-select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+      margin-bottom: 12px;
+      background: #fff;
+      cursor: pointer;
+    }
+    .admin-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--primary), var(--sub));
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(112, 52, 255, 0.3);
+    }
+    .admin-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(112, 52, 255, 0.4);
+    }
+    .admin-btn:active {
+      transform: translateY(0);
+    }
+    .admin-result {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      min-height: 20px;
+    }
+    .admin-result.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .admin-result.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .admin-result.info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+    .status-bar {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .status-label {
+      font-size: 14px;
+      color: var(--gray);
+    }
+    .status-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .owner-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: linear-gradient(135deg, #FFD700, #FF8C00);
+      color: #fff;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <div class="status-item">
+        <span class="status-label">连接状态:</span>
+        <span class="status-value" id="connectionStatus">未连接</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">当前地址:</span>
+        <span class="status-value" id="currentAddress">-</span>
+      </div>
+      <div class="status-item" id="ownerStatus" style="display:none;">
+        <span class="owner-badge">👑 Owner</span>
+      </div>
+      <button id="btnConnect" class="admin-btn" onclick="connectWallet()" style="width:auto;padding:10px 20px;margin:0;">
+        <span id="btnConnectText">连接钱包</span>
+      </button>
+    </div>
+
+    <!-- Owner权限检查 -->
+    <div class="admin-card" id="ownerCheckCard">
+      <h3>权限检查</h3>
+      <div id="ownerCheck" style="text-align:center;padding:20px;">
+        <p style="color:#999;">请先连接钱包以检查Owner权限</p>
+      </div>
+    </div>
+
+    <!-- 管理面板 -->
+    <div id="adminPanel" style="display:none;">
+      <!-- 增加用户Pi余额 -->
+      <div class="admin-card">
+        <h3>增加用户Pi余额</h3>
+        <input id="adminUserAddress" type="text" placeholder="用户地址 (0x...)" class="admin-input">
+        <input id="adminPiAmount" type="number" step="0.01" placeholder="Pi数量" class="admin-input">
+        <button onclick="adminAddPi()" class="admin-btn">增加Pi</button>
+        <div id="adminPiResult" class="admin-result"></div>
+      </div>
+
+      <!-- 增加用户勋章 -->
+      <div class="admin-card">
+        <h3>增加用户勋章</h3>
+        <input id="adminMedalUser" type="text" placeholder="用户地址 (0x...)" class="admin-input">
+        <select id="adminMedalType" class="admin-select">
+          <option value="0">黄金勋章 (30U)</option>
+          <option value="1">钻石勋章 (100U)</option>
+          <option value="2">黑钻勋章 (200U)</option>
+        </select>
+        <input id="adminMedalAmount" type="number" step="0.01" placeholder="质押金额(U)" class="admin-input">
+        <button onclick="adminAddMedal()" class="admin-btn">增加勋章</button>
+        <div id="adminMedalResult" class="admin-result"></div>
+      </div>
+
+      <!-- 设置商品价格 -->
+      <div class="admin-card">
+        <h3>设置商品价格</h3>
+        <input id="adminProductIndex" type="number" min="0" max="13" placeholder="商品索引 (0-13)" class="admin-input">
+        <input id="adminProductPrice" type="number" step="0.01" placeholder="价格(Pi)" class="admin-input">
+        <button onclick="adminSetProductPrice()" class="admin-btn">设置价格</button>
+        <div id="adminProductResult" class="admin-result"></div>
+      </div>
+
+      <!-- 设置发货地址 -->
+      <div class="admin-card">
+        <h3>设置发货地址</h3>
+        <input id="adminShippingAddress" type="text" placeholder="发货地址" class="admin-input">
+        <button onclick="adminSetShippingAddress()" class="admin-btn">设置地址</button>
+        <div id="adminShippingResult" class="admin-result"></div>
+      </div>
+
+      <!-- 设置计数器初始值 -->
+      <div class="admin-card">
+        <h3>设置计数器初始值</h3>
+        <input id="adminGlobalCount" type="number" placeholder="全球勋章数量" class="admin-input">
+        <input id="adminRegionCount" type="number" placeholder="所在地区黄金勋章数量" class="admin-input">
+        <button onclick="adminSetCounters()" class="admin-btn">设置计数器</button>
+        <div id="adminCounterResult" class="admin-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ethers.js -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script>
+    const contractAddress = "0x077F10970ee4Bb9f6b34467408418E421faecc0e";
+    const abi = [
+      "function owner() view returns(address)",
+      "function addUserPiBalance(address,uint256)",
+      "function addUserMedal(address,uint256,uint256)",
+      "function setProductPrice(uint256,uint256)",
+      "function setShippingFromAddress(string)",
+      "function setCounterInitialValues(uint256,uint256)"
+    ];
+    
+    let provider, signer, contract, myAddr, isOwner = false;
+
+    async function connectWallet() {
+      if (!window.ethereum) {
+        alert('请安装 MetaMask');
+        return;
+      }
+      
+      try {
+        await ethereum.request({ method: 'eth_requestAccounts' });
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+        signer = provider.getSigner();
+        myAddr = await signer.getAddress();
+        
+        document.getElementById('currentAddress').innerText = myAddr.slice(0, 6) + '...' + myAddr.slice(-4);
+        document.getElementById('connectionStatus').innerText = '已连接';
+        document.getElementById('connectionStatus').style.color = '#4caf50';
+        document.getElementById('btnConnectText').innerText = '已连接';
+        document.getElementById('btnConnect').style.background = '#4caf50';
+        
+        contract = new ethers.Contract(contractAddress, abi, signer);
+        
+        // 检查Owner权限
+        await checkOwner();
+      } catch (e) {
+        console.error('连接失败:', e);
+        alert('连接钱包失败: ' + e.message);
+      }
+    }
+
+    async function checkOwner() {
+      if (!contract) return;
+      
+      try {
+        const ownerCheckEl = document.getElementById('ownerCheck');
+        ownerCheckEl.innerHTML = '<p style="color:#06c;">检查权限中...</p>';
+        
+        const owner = await contract.owner();
+        isOwner = owner.toLowerCase() === myAddr.toLowerCase();
+        
+        if (isOwner) {
+          document.getElementById('ownerStatus').style.display = 'flex';
+          document.getElementById('ownerCheckCard').style.display = 'none';
+          document.getElementById('adminPanel').style.display = 'block';
+          ownerCheckEl.innerHTML = '<p style="color:#4caf50;font-weight:700;">✓ 您拥有Owner权限</p>';
+        } else {
+          document.getElementById('ownerStatus').style.display = 'none';
+          document.getElementById('adminPanel').style.display = 'none';
+          ownerCheckEl.innerHTML = '<p style="color:#f00;font-weight:700;">✗ 您不是Owner，无权访问此控制台</p>';
+        }
+      } catch (e) {
+        console.error('检查权限失败:', e);
+        document.getElementById('ownerCheck').innerHTML = '<p style="color:#f00;">检查权限失败: ' + e.message + '</p>';
+      }
+    }
+
+    async function adminAddPi() {
+      if (!isOwner || !contract) {
+        alert('请先连接钱包并确认Owner权限');
+        return;
+      }
+      
+      const userAddress = document.getElementById('adminUserAddress').value.trim();
+      const piAmount = document.getElementById('adminPiAmount').value;
+      const resultEl = document.getElementById('adminPiResult');
+      
+      if (!userAddress || !piAmount) {
+        resultEl.className = 'admin-result error';
+        resultEl.innerText = '请填写完整信息';
+        return;
+      }
+      
+      try {
+        resultEl.className = 'admin-result info';
+        resultEl.innerText = '处理中...';
+        
+        const amountInWei = ethers.utils.parseUnits(piAmount, 18);
+        const tx = await contract.addUserPiBalance(userAddress, amountInWei);
+        resultEl.innerText = '交易已提交，等待确认...';
+        
+        await tx.wait();
+        resultEl.className = 'admin-result success';
+        resultEl.innerText = '✓ 成功增加 ' + piAmount + ' Pi 到用户 ' + userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
+        
+        document.getElementById('adminUserAddress').value = '';
+        document.getElementById('adminPiAmount').value = '';
+      } catch (e) {
+        console.error('增加Pi失败:', e);
+        resultEl.className = 'admin-result error';
+        resultEl.innerText = '失败: ' + (e.message || e.reason || '未知错误');
+      }
+    }
+
+    async function adminAddMedal() {
+      if (!isOwner || !contract) {
+        alert('请先连接钱包并确认Owner权限');
+        return;
+      }
+      
+      const userAddress = document.getElementById('adminMedalUser').value.trim();
+      const medalType = parseInt(document.getElementById('adminMedalType').value);
+      const amountU = document.getElementById('adminMedalAmount').value;
+      const resultEl = document.getElementById('adminMedalResult');
+      
+      if (!userAddress || !amountU) {
+        resultEl.className = 'admin-result error';
+        resultEl.innerText = '请填写完整信息';
+        return;
+      }
+      
+      try {
+        resultEl.className = 'admin-result info';
+        resultEl.innerText = '处理中...';
+        
+        const amountInWei = ethers.utils.parseUnits(amountU, 18);
+        const tx = await contract.addUserMedal(userAddress, medalType, amountInWei);
+        resultEl.innerText = '交易已提交，等待确认...';
+        
+        await tx.wait();
+        const medalNames = ['黄金勋章', '钻石勋章', '黑钻勋章'];
+        resultEl.className = 'admin-result success';
+        resultEl.innerText = '✓ 成功为用户 ' + userAddress.slice(0, 6) + '...' + userAddress.slice(-4) + ' 增加 ' + medalNames[medalType];
+        
+        document.getElementById('adminMedalUser').value = '';
+        document.getElementById('adminMedalAmount').value = '';
+      } catch (e) {
+        console.error('增加勋章失败:', e);
+        resultEl.className = 'admin-result error';
+        resultEl.innerText = '失败: ' + (e.message || e.reason || '未知错误');
+      }
+    }
+
+    async function adminSetProductPrice() {
+      if (!isOwner || !contract) {
+        alert('请先连接钱包并确认Owner权限');
+        return;
+      }
+      
+      const productIndex = parseInt(document.getElementById('adminProductIndex').value);
+      const price = document.getElementById('adminProductPrice').value;
+      const resultEl = document.getElementById('adminProductResult');
+      
+      if (productIndex < 0 || productIndex > 13 || !price) {
+        resultEl.className = 'admin-result error';
+        resultEl.innerText = '请填写完整信息（商品索引0-13）';
+        return;
+      }
+      
+      try {
+        resultEl.className = 'admin-result info';
+        resultEl.innerText = '处理中...';
+        
+        const priceInWei = ethers.utils.parseUnits(price, 18);
+        const tx = await contract.setProductPrice(productIndex, priceInWei);
+        resultEl.innerText = '交易已提交，等待确认...';
+        
+        await tx.wait();
+        resultEl.className = 'admin-result success';
+        resultEl.innerText = '✓ 成功设置商品 #' + productIndex + ' 的价格为 ' + price + ' Pi';
+        
+        document.getElementById('adminProductIndex').value = '';
+        document.getElementById('adminProductPrice').value = '';
+      } catch (e) {
+        console.error('设置价格失败:', e);
+        resultEl.className = 'admin-result error';
+        resultEl.innerText = '失败: ' + (e.message || e.reason || '未知错误');
+      }
+    }
+
+    async function adminSetShippingAddress() {
+      if (!isOwner || !contract) {
+        alert('请先连接钱包并确认Owner权限');
+        return;
+      }
+      
+      const address = document.getElementById('adminShippingAddress').value.trim();
+      const resultEl = document.getElementById('adminShippingResult');
+      
+      if (!address) {
+        resultEl.className = 'admin-result error';
+        resultEl.innerText = '请填写发货地址';
+        return;
+      }
+      
+      try {
+        resultEl.className = 'admin-result info';
+        resultEl.innerText = '处理中...';
+        
+        const tx = await contract.setShippingFromAddress(address);
+        resultEl.innerText = '交易已提交，等待确认...';
+        
+        await tx.wait();
+        resultEl.className = 'admin-result success';
+        resultEl.innerText = '✓ 成功设置发货地址: ' + address;
+        
+        document.getElementById('adminShippingAddress').value = '';
+      } catch (e) {
+        console.error('设置地址失败:', e);
+        resultEl.className = 'admin-result error';
+        resultEl.innerText = '失败: ' + (e.message || e.reason || '未知错误');
+      }
+    }
+
+    async function adminSetCounters() {
+      if (!isOwner || !contract) {
+        alert('请先连接钱包并确认Owner权限');
+        return;
+      }
+      
+      const globalCount = document.getElementById('adminGlobalCount').value;
+      const regionCount = document.getElementById('adminRegionCount').value;
+      const resultEl = document.getElementById('adminCounterResult');
+      
+      if (!globalCount || !regionCount) {
+        resultEl.className = 'admin-result error';
+        resultEl.innerText = '请填写完整信息';
+        return;
+      }
+      
+      try {
+        resultEl.className = 'admin-result info';
+        resultEl.innerText = '处理中...';
+        
+        const tx = await contract.setCounterInitialValues(globalCount, regionCount);
+        resultEl.innerText = '交易已提交，等待确认...';
+        
+        await tx.wait();
+        resultEl.className = 'admin-result success';
+        resultEl.innerText = '✓ 成功设置计数器: 全球=' + globalCount + ', 地区=' + regionCount;
+        
+        document.getElementById('adminGlobalCount').value = '';
+        document.getElementById('adminRegionCount').value = '';
+      } catch (e) {
+        console.error('设置计数器失败:', e);
+        resultEl.className = 'admin-result error';
+        resultEl.innerText = '失败: ' + (e.message || e.reason || '未知错误');
+      }
+    }
+
+    // 页面加载时检查是否已连接钱包
+    window.addEventListener('load', () => {
+      if (window.ethereum && window.ethereum.selectedAddress) {
+        connectWallet();
+      }
+    });
+  </script>
+</body>
+</html>
+
