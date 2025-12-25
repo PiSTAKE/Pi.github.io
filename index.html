@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-  <title>PI</title>
+  <title>Pi</title>
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -417,7 +417,7 @@
       <div class="video-item">
         <div class="video-container">
           <video class="video-player" controls preload="metadata" poster="">
-            <source src="1.mp4" type="video/mp4">
+            <source src="https://github.com/PiSTAKE/Pi.github.io/releases/download/v1.0-video/1.mp4" type="video/mp4">
             您的浏览器不支持视频播放。
           </video>
         </div>
@@ -431,7 +431,7 @@
       <div class="video-item">
         <div class="video-container">
           <video class="video-player" controls preload="metadata" poster="">
-            <source src="2.MP4" type="video/mp4">
+            <source src="https://github.com/PiSTAKE/Pi.github.io/releases/download/v1.0-video/2.mp4" type="video/mp4">
             您的浏览器不支持视频播放。
           </video>
         </div>
@@ -492,7 +492,7 @@
     initMedalDisplay();
 
     /* -------- 链参数 -------- */
-    const contractAddress = "0x077F10970ee4Bb9f6b34467408418E421faecc0e";
+    const contractAddress = "0x3d756EbcC48ed4060aF29B3C2a95f4341646595F";
     const usdtAddress     = "0x55d398326f99059fF775485246999027B3197955";
     const abi=[
       "function stake(uint256,address)","function claim()",
@@ -999,7 +999,7 @@
         if(listEl) listEl.innerHTML = '<p style="text-align:center;color:#f00;margin:0;padding:40px 0;">加载失败，请重试</p>';
       }
     }
-    
+
     // 进入Pi页时加载明细，进入质押页时加载质押记录，进入我的页面时加载订单
     window.addEventListener('hashchange',()=>{
       if(location.hash==='#points')loadPointsHistory();
