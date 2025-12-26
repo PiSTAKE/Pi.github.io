@@ -583,8 +583,9 @@ https://pistake.github.io/Pi.github.io/
     function smartFormat(num){
       const numFloat = parseFloat(num);
       if(numFloat === 0) return '0';
-      if(numFloat < 0.0001) return numFloat.toExponential(2); // 极小值用科学计数法
-      if(numFloat < 1) return formatNumber(numFloat.toFixed(6)); // 小于1保留6位
+      // 极小值不使用科学计数法，统一显示到小数点后5位
+      if(numFloat < 0.0001) return numFloat.toFixed(5);
+      if(numFloat < 1) return formatNumber(numFloat.toFixed(5)); // 小于1保留5位
       if(numFloat < 100) return formatNumber(numFloat.toFixed(4)); // 小于100保留4位
       if(numFloat < 10000) return formatNumber(numFloat.toFixed(2)); // 小于10000保留2位
       return formatNumber(numFloat.toFixed(2)); // 大于10000保留2位
