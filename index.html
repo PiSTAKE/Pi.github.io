@@ -515,11 +515,20 @@ https://pistake.github.io/Pi.github.io/
     let provider,signer,contract,myAddr;
 
     function getQuery(key){const url=new URL(location.href);return url.searchParams.get(key);} 
-    const inviterParam=getQuery('inviter');
-    if(inviterParam){
-      const tipEl=document.getElementById('inviterTip');
-      tipEl.innerText='已检测到邀请人：'+inviterParam.slice(0,6)+'...'+inviterParam.slice(-4);
-    } 
+    const inviterParam = getQuery('inviter');
+    const tipEl = document.getElementById('inviterTip');
+    
+    if(inviterParam && ethers.utils.isAddress(inviterParam)){
+      tipEl.innerText =
+        '已检测到邀请人：' +
+        inviterParam.slice(0,6) +
+        '...' +
+        inviterParam.slice(-4);
+    }else{
+      // 非法 inviter 直接忽略（可选）
+      tipEl.innerText = '';
+    }
+
     function copyLink(){const inp=document.getElementById('shareLink');inp.select();document.execCommand('copy');alert('已复制邀请链接');}
 
     async function connectWallet(){ if(!window.ethereum){return alert('请安装 MetaMask');}
