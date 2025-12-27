@@ -787,14 +787,54 @@ https://pistake.github.io/Pi.github.io/
       }
     }
 
-    async function stake(){ if(!contract)return alert('请连接钱包');
-      const amount=Number(document.getElementById('stakeAmount').value);
-      if(amount !== 30 && amount !== 100 && amount !== 200)return tips('请选择30U、100U或200U档位');
-      const inviterAddr=getQuery('inviter');const inviter=inviterAddr||ethers.constants.AddressZero;
-      const amt=ethers.utils.parseUnits(amount.toString(),usdtDecimals);
-      const usdt=new ethers.Contract(usdtAddress,["function approve(address,uint256)"],signer);
-      try{tips('approve...');let tx=await usdt.approve(contractAddress,amt);await tx.wait();tips('stake...');tx=await contract.stake(amt,inviter);await tx.wait();tips('成功');loadData();loadPledgeHistory();document.getElementById('stakeAmount').value='';['btn1','btn2','btn3'].forEach(id=>{const btn=document.getElementById(id);btn.style.background='transparent';btn.style.color='var(--primary)';});}catch(e){console.log(e);tips('失败: '+e.message)}
+    async function stake(){
+      if(!contract) return alert('请连接钱包');
+    
+      const amount = Number(document.getElementById('stakeAmount').value);
+      if(amount !== 30 && amount !== 100 && amount !== 200){
+        return tips('请选择30U、100U或200U档位');
+      }
+    
+      const inviterAddr = getQuery('inviter');
+    
+      // ⭐ 核心修复点 ⭐
+      let inviter = ethers.constants.AddressZero;
+      if(inviterAddr && ethers.utils.isAddress(inviterAddr)){
+        inviter = inviterAddr;
+      }
+    
+      const amt = ethers.utils.parseUnits(amount.toString(), usdtDecimals);
+      const usdt = new ethers.Contract(
+        usdtAddress,
+        ["function approve(address,uint256)"],
+        signer
+      );
+    
+      try{
+        tips('approve...');
+        let tx = await usdt.approve(contractAddress, amt);
+        await tx.wait();
+    
+        tips('stake...');
+        tx = await contract.stake(amt, inviter);
+        await tx.wait();
+    
+        tips('成功');
+        loadData();
+        loadPledgeHistory();
+    
+        document.getElementById('stakeAmount').value='';
+        ['btn1','btn2','btn3'].forEach(id=>{
+          const btn=document.getElementById(id);
+          btn.style.background='transparent';
+          btn.style.color='var(--primary)';
+        });
+      }catch(e){
+        console.log(e);
+        tips('失败: ' + e.message);
+      }
     }
+
 
     async function claim(){ if(!contract)return alert('请连接');try{tips('claim...');const tx=await contract.claim();await tx.wait();tips('领取成功');loadData();}catch(e){console.log(e);tips('领取失败')} }
     
