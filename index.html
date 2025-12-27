@@ -515,6 +515,26 @@ https://pistake.github.io/Pi.github.io/
     let provider,signer,contract,myAddr;
 
     function getQuery(key){const url=new URL(location.href);return url.searchParams.get(key);} 
+    function safeGetAddress(key){
+      try{
+        const url = new URL(location.href);
+        let val = url.searchParams.get(key);
+        if(!val) return null;
+    
+        // 去掉首尾空格 / 换行 / 不可见字符
+        val = val.trim();
+    
+        // 校验是否是合法地址
+        if(ethers.utils.isAddress(val)){
+          return val;
+        }
+    
+        return null;
+      }catch(e){
+        return null;
+      }
+    }
+
     const inviterParam = getQuery('inviter');
     const tipEl = document.getElementById('inviterTip');
     
@@ -804,7 +824,7 @@ https://pistake.github.io/Pi.github.io/
         return tips('请选择30U、100U或200U档位');
       }
     
-      const inviterAddr = getQuery('inviter');
+      const inviter = safeGetAddress('inviter') || ethers.constants.AddressZero;
     
       // ⭐ 核心修复点 ⭐
       let inviter = ethers.constants.AddressZero;
