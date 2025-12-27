@@ -535,19 +535,18 @@ https://pistake.github.io/Pi.github.io/
       }
     }
 
-    const inviterParam = getQuery('inviter');
-    const tipEl = document.getElementById('inviterTip');
+    const inviterParam = safeGetAddress('inviter');
     
-    if(inviterParam && ethers.utils.isAddress(inviterParam)){
+    if(inviterParam){
       tipEl.innerText =
         '已检测到邀请人：' +
         inviterParam.slice(0,6) +
         '...' +
         inviterParam.slice(-4);
     }else{
-      // 非法 inviter 直接忽略（可选）
       tipEl.innerText = '';
     }
+
 
     function copyLink(){const inp=document.getElementById('shareLink');inp.select();document.execCommand('copy');alert('已复制邀请链接');}
 
@@ -824,15 +823,16 @@ https://pistake.github.io/Pi.github.io/
         return tips('请选择30U、100U或200U档位');
       }
     
-      const inviter = safeGetAddress('inviter') || ethers.constants.AddressZero;
+      // ✅ 唯一正确的 inviter 获取方式
+      const inviter =
+        safeGetAddress('inviter') ||
+        ethers.constants.AddressZero;
     
-      // ⭐ 核心修复点 ⭐
-      let inviter = ethers.constants.AddressZero;
-      if(inviterAddr && ethers.utils.isAddress(inviterAddr)){
-        inviter = inviterAddr;
-      }
+      const amt = ethers.utils.parseUnits(
+        amount.toString(),
+        usdtDecimals
+      );
     
-      const amt = ethers.utils.parseUnits(amount.toString(), usdtDecimals);
       const usdt = new ethers.Contract(
         usdtAddress,
         ["function approve(address,uint256)"],
@@ -863,6 +863,7 @@ https://pistake.github.io/Pi.github.io/
         tips('失败: ' + e.message);
       }
     }
+
 
 
     async function claim(){ if(!contract)return alert('请连接');try{tips('claim...');const tx=await contract.claim();await tx.wait();tips('领取成功');loadData();}catch(e){console.log(e);tips('领取失败')} }
